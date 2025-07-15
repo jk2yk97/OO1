@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const year1 = document.querySelector('.year-1');
   const year2 = document.querySelector('.year-2');
 
-  // Cargar estado desde localStorage
   allSubjects.forEach(li => {
     const key = li.textContent.trim();
     const saved = localStorage.getItem(key);
