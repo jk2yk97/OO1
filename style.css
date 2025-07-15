@@ -125,7 +125,6 @@ li.completed {
     min-width: 300px;
 }
 
-/* MODAL */
 .modal {
     display: none;
     position: fixed;
@@ -140,7 +139,7 @@ li.completed {
 
 .modal-content {
     background-color: #fff;
-    color: #927f6a; /* texto general dentro del modal (inputs, selects) café medio */
+    color: #927f6a;
     margin: 10% auto;
     padding: 20px;
     width: 300px;
@@ -238,4 +237,7 @@ li.completed {
 .semester.inactive-2 {
     opacity: 0.5;
     pointer-events: none;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
 }
