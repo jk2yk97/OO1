@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const year1 = document.querySelector('.year-1');
   const year2 = document.querySelector('.year-2');
 
-  // Cargar estado desde localStorage
   allSubjects.forEach(li => {
     const key = li.textContent.trim();
     const saved = localStorage.getItem(key);
@@ -122,38 +121,40 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   checkUnlocking();
-});
-document.querySelectorAll('.info-btn').forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    const li = btn.closest('li');
-    const id = li.dataset.id;
-    openModal(id);
+
+  document.querySelectorAll('.info-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const li = btn.closest('li');
+      const id = li.dataset.id;
+      openModal(id);
+    });
   });
-});
 
-const modal = document.getElementById('infoModal');
-const form = document.getElementById('moduleForm');
-let currentModuleId = '';
+  const modal = document.getElementById('infoModal');
+  const form = document.getElementById('moduleForm');
+  let currentModuleId = '';
 
-function openModal(id) {
-  currentModuleId = id;
-  const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
-  form.docente.value = data.docente || '';
-  form.grupo.value = data.grupo || '';
-  form.inicio.value = data.inicio || '';
-  form.fin.value = data.fin || '';
-  form.nota.value = data.nota || '';
-  form.estado.value = data.estado || 'Aprobado';
-  modal.style.display = 'block';
-}
-
-document.querySelector('.close-btn').addEventListener('click', () => {
-  modal.style.display = 'none';
-});
-
-window.addEventListener('click', e => {
-  if (e.target === modal) {
-    modal.style.display = 'none';
+  function openModal(id) {
+    currentModuleId = id;
+    const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
+    form.docente.value = data.docente || '';
+    form.grupo.value = data.grupo || '';
+    form.inicio.value = data.inicio || '';
+    form.fin.value = data.fin || '';
+    form.nota.value = data.nota || '';
+    form.estado.value = data.estado || 'Aprobado';
+    modal.style.display = 'block';
   }
+
+  document.querySelector('.close-btn').addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  window.addEventListener('click', e => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+
 });
