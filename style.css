@@ -181,6 +181,7 @@ li.completed {
     border-radius: 6px;
     padding: 6px 8px;
     background-color: #fff;
+    box-sizing: border-box;
 }
 
 .modal-content option {
@@ -237,7 +238,4 @@ li.completed {
 .semester.inactive-2 {
     opacity: 0.5;
     pointer-events: none;
-}
-*, *::before, *::after {
-  box-sizing: border-box;
 }
