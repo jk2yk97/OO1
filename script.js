@@ -157,3 +157,27 @@ window.addEventListener('click', e => {
     modal.style.display = 'none';
   }
 });
+
+document.querySelector('.close-btn').addEventListener('click', () => {
+  saveFormData();
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', e => {
+  if (e.target === modal) {
+    saveFormData();
+    modal.style.display = 'none';
+  }
+});
+
+function saveFormData() {
+  const data = {
+    docente: form.docente.value,
+    grupo: form.grupo.value,
+    inicio: form.inicio.value,
+    fin: form.fin.value,
+    nota: form.nota.value,
+    estado: form.estado.value
+  };
+  localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(data));
+}
