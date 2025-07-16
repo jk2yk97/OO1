@@ -91,8 +91,11 @@ document.addEventListener('DOMContentLoaded', function () {
       disableEnglish(key);
     }
 
-    li.addEventListener('click', (e) => {
-      if (e.target.closest('.info-btn')) return;
+    li.addEventListener('click', function(e) {
+
+      if (e.target.closest('.info-btn')) {
+        return;
+      }
 
       const semester = li.closest('.semester');
       if (!semester) return;
@@ -148,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
             selectDate(day);
           });
         });
-
+        
         const clearBtn = calendarDropdown.querySelector('.clear-date-btn');
         clearBtn.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -171,25 +174,10 @@ document.addEventListener('DOMContentLoaded', function () {
           showCalendarDropdown();
         });
       }
-        
-        const prevMonth = calendarDropdown.querySelector('.prev-month');
-        const nextMonth = calendarDropdown.querySelector('.next-month');
-        
-        prevMonth.addEventListener('click', (e) => {
-          e.stopPropagation();
-          currentDate.setMonth(currentDate.getMonth() - 1);
-          showCalendarDropdown();
-        });
-        
-        nextMonth.addEventListener('click', (e) => {
-          e.stopPropagation();
-          currentDate.setMonth(currentDate.getMonth() + 1);
-          showCalendarDropdown();
-        });
-      }
       
       function selectDate(dayElement) {
         const day = parseInt(dayElement.textContent);
+
         selectedDate = new Date(
           currentDate.getFullYear(),
           currentDate.getMonth(),
@@ -197,17 +185,17 @@ document.addEventListener('DOMContentLoaded', function () {
         );
         
         dateInput.value = formatDate(selectedDate);
+
         dateInput.dataset.dateValue = formatDateForStorage(selectedDate);
         calendarDropdown.classList.remove('active');
       }
       
-      // Nueva función para borrar fecha
       function clearDate() {
         dateInput.value = '';
         dateInput.dataset.dateValue = '';
         selectedDate = null;
       }
-
+      
       function formatDate(date) {
         if (!date) return '';
         const weekday = date.toLocaleDateString('es', { weekday: 'short' }).replace('.', '');
@@ -219,6 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       
       function formatDateForStorage(date) {
+        if (!date) return '';
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
@@ -252,10 +241,6 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="calendar-day-header">S</div>
             <div class="calendar-day-header">D</div>
         `;
-        
-        return html;
-      }
-    });
         
         const firstDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
         for (let i = firstDayOfWeek; i > 0; i--) {
@@ -326,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function formatDateForDisplay(dateString) {
     if (!dateString) return '';
-
+    
     const parts = dateString.split('-');
     if (parts.length !== 3) return '';
     
@@ -344,7 +329,12 @@ document.addEventListener('DOMContentLoaded', function () {
   function saveFormData() {
     const inicioValue = form.querySelector('input[name="inicio"]').dataset.dateValue || '';
     const finValue = form.querySelector('input[name="fin"]').dataset.dateValue || '';
-
+    
+    if (finValue && !inicioValue) {
+      alert('💟 Debes seleccionar una fecha de inicio si has seleccionado fecha de fin');
+      return;
+    }
+    
     if (inicioValue) {
       const inicioParts = inicioValue.split('-');
       const inicioDate = new Date(inicioParts[0], inicioParts[1] - 1, inicioParts[2]);
@@ -353,17 +343,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
     }
-
-    if (finValue && !inicioValue) {
-      alert('💟 Debes seleccionar una fecha de inicio si has seleccionado fecha de fin');
-      return;
-    }
     
     if (finValue) {
       const finParts = finValue.split('-');
       const finDate = new Date(finParts[0], finParts[1] - 1, finParts[2]);
       if (isNaN(finDate.getTime())) {
-        alert('La fecha de fin no es válida');
+        alert('💟 La fecha de fin no es válida');
         return;
       }
     }
