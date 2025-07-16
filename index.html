@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Técnico Especialista en Atención al Cliente y Recepción Hotelera</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+
+    .module-info {
+      font-size: 12px;
+      color: #836540;
+      margin-left: 8px;
+      font-style: italic;
+      margin-top: 2px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -23,10 +33,12 @@
               <li data-id="gestion-calidad">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Gestión de Calidad
+                <div class="module-info"></div>
               </li>
               <li data-id="higiene-seguridad">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Higiene y Seguridad del Trabajo
+                <div class="module-info"></div>
               </li>
             </ul>
           </div>
@@ -37,22 +49,27 @@
               <li data-id="sistemas-ofimatica">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Sistemas Operativos y Ofimática
+                <div class="module-info"></div>
               </li>
               <li data-id="english-a1">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 English A1 Breakthrough
+                <div class="module-info"></div>
               </li>
               <li data-id="atencion-telefonica">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Atención Telefónica y Mensajería en Alojamientos
+                <div class="module-info"></div>
               </li>
               <li data-id="reservacion-recepcion">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Reservación y Recepción en Alojamientos
+                <div class="module-info"></div>
               </li>
               <li data-id="english-a2">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 English A2 Waystage
+                <div class="module-info"></div>
               </li>
             </ul>
           </div>
@@ -67,10 +84,12 @@
               <li data-id="cambio-climatico">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Adaptación al Cambio Climático
+                <div class="module-info"></div>
               </li>
               <li data-id="orientacion-laboral">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Orientación Laboral
+                <div class="module-info"></div>
               </li>
             </ul>
           </div>
@@ -81,18 +100,22 @@
               <li data-id="sistemas-ofimatica-2">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Sistemas Operativos y Ofimática
+                <div class="module-info"></div>
               </li>
               <li data-id="facturacion-caja">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Facturación y Caja en Alojamientos
+                <div class="module-info"></div>
               </li>
               <li data-id="gestion-recepcion">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Gestión de Departamento en Recepción Hotelera
+                <div class="module-info"></div>
               </li>
               <li data-id="english-b1">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 English B1 Threshold
+                <div class="module-info"></div>
               </li>
             </ul>
           </div>
@@ -111,6 +134,7 @@
               <li data-id="practicas-profesionales">
                 <button class="info-btn"><img src="https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/icono.png" alt="info" /></button>
                 Prácticas Profesionales
+                <div class="module-info"></div>
               </li>
             </ul>
           </div>
@@ -119,7 +143,6 @@
     </div>
   </div>
 
-  <!-- MODAL -->
   <div id="infoModal" class="modal">
     <div class="modal-content">
       <span class="close-btn">&times;</span>
@@ -162,6 +185,114 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('infoModal');
+      const form = document.getElementById('moduleForm');
+      let currentModuleId = '';
+
+      function formatearFechaES(fechaISO) {
+        if (!fechaISO) return '';
+        const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
+        return new Date(fechaISO).toLocaleDateString('es-ES', opciones);
+      }
+
+      function mostrarFechas(inicio, fin) {
+        const fInicio = formatearFechaES(inicio);
+        const fFin = formatearFechaES(fin);
+
+        if (fInicio && fFin) return `, del ${fInicio} al ${fFin}`;
+        if (fInicio) return `, desde ${fInicio}`;
+        if (fFin) return `, hasta ${fFin}`;
+        return '';
+      }
+
+      function actualizarInfoModulos() {
+        document.querySelectorAll('li[data-id]').forEach(li => {
+          const id = li.dataset.id;
+          const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
+          const infoDiv = li.querySelector('.module-info');
+
+          const fechas = mostrarFechas(data.inicio, data.fin);
+          const estado = data.estado ? ` - Estado: ${data.estado}` : '';
+          const nota = data.nota ? ` - Nota: ${data.nota}` : '';
+          const docente = data.docente ? `Docente: ${data.docente}` : '';
+
+          let texto = docente;
+          if (fechas) texto += fechas;
+          if (estado) texto += estado;
+          if (nota) texto += nota;
+
+          infoDiv.textContent = texto;
+        });
+      }
+
+      document.querySelectorAll('.info-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const li = btn.closest('li');
+          const id = li.dataset.id;
+
+          if (!id) {
+            alert('¡Falta el data-id en el li!');
+            return;
+          }
+
+          currentModuleId = id;
+
+          const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
+          form.docente.value = data.docente || '';
+          form.grupo.value = data.grupo || '';
+          form.inicio.value = data.inicio || '';
+          form.fin.value = data.fin || '';
+          form.nota.value = data.nota || '';
+          form.estado.value = data.estado || 'Aprobado';
+
+          modal.style.display = 'block';
+        });
+      });
+
+      document.querySelector('.close-btn').addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
+      window.addEventListener('click', e => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        if (!currentModuleId) {
+          alert('Error: No se ha seleccionado ningún módulo.');
+          return;
+        }
+
+        const formData = {
+          docente: form.docente.value.trim(),
+          grupo: form.grupo.value.trim(),
+          inicio: form.inicio.value,
+          fin: form.fin.value,
+          nota: form.nota.value.trim(),
+          estado: form.estado.value
+        };
+
+        try {
+          localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(formData));
+          alert('Información guardada correctamente ✅');
+        } catch (err) {
+          console.error('Error al guardar en localStorage', err);
+          alert('❌ Error al guardar en localStorage');
+        }
+
+        actualizarInfoModulos();
+        modal.style.display = 'none';
+      });
+
+      actualizarInfoModulos();
+    });
+  </script>
 </body>
 </html>
