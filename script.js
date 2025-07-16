@@ -8,9 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
       e.stopPropagation();
       const li = btn.closest('li');
       const id = li.dataset.id;
-
       if (!id) {
-        alert('¡Falta el data-id en el li!');
+        alert('Falta data-id');
         return;
       }
 
@@ -24,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
       form.nota.value = data.nota || '';
       form.estado.value = data.estado || 'Aprobado';
 
-      console.log('Abriendo modal para:', id);
       modal.style.display = 'block';
     });
   });
@@ -41,9 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', e => {
     e.preventDefault();
-
     if (!currentModuleId) {
-      alert('Error: No se ha seleccionado ningún módulo.');
+      alert('No se seleccionó módulo');
       return;
     }
 
@@ -58,13 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(formData));
-      console.log('Guardado:', `modinfo-${currentModuleId}`, formData);
+      const li = document.querySelector(`li[data-id="${currentModuleId}"]`);
+      if (formData.estado === 'Aprobado') {
+        li.classList.add('completed');
+      } else {
+        li.classList.remove('completed');
+      }
       alert('💌 Guardado');
     } catch (err) {
-      console.error('Error al guardar en localStorage', err);
-      alert('💟 Error');
+      console.error('Error al guardar', err);
+      alert('✉ Error');
     }
 
     modal.style.display = 'none';
+  });
+
+  document.querySelectorAll('li[data-id]').forEach(li => {
+    const id = li.dataset.id;
+    const data = JSON.parse(localStorage.getItem(`modinfo-${id}`));
+    if (data?.estado === 'Aprobado') {
+      li.classList.add('completed');
+    }
   });
 });
