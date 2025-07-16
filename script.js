@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const year1 = document.querySelector('.year-1');
   const year2 = document.querySelector('.year-2');
 
-  // Cargar estado desde localStorage
   allSubjects.forEach(li => {
     const key = li.querySelector('span').textContent.trim();
     const saved = localStorage.getItem(key);
@@ -123,7 +122,156 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Modal functionality
+  function initializeDatePickers() {
+    const datePickers = document.querySelectorAll('.date-picker');
+    
+    datePickers.forEach(picker => {
+      const dateInput = picker.querySelector('.date-input');
+      const calendarPreview = picker.querySelector('.calendar-preview');
+      const calendarDropdown = picker.querySelector('.calendar-dropdown');
+      
+      let currentDate = new Date();
+      let selectedDate = null;
+
+      dateInput.addEventListener('mouseenter', showCalendarPreview);
+      dateInput.addEventListener('mouseleave', () => {
+        if (!calendarDropdown.classList.contains('active')) {
+          calendarPreview.style.display = 'none';
+        }
+      });
+
+      dateInput.addEventListener('click', showCalendarDropdown);
+      
+      function showCalendarPreview() {
+        calendarPreview.innerHTML = generateCalendarHTML(currentDate, true);
+        calendarPreview.style.display = 'block';
+      }
+      
+      function showCalendarDropdown() {
+        calendarDropdown.innerHTML = generateCalendarHTML(currentDate);
+        calendarDropdown.classList.add('active');
+        calendarPreview.style.display = 'none';
+
+        const days = calendarDropdown.querySelectorAll('.calendar-day:not(.other-month)');
+        days.forEach(day => {
+          day.addEventListener('click', () => selectDate(day));
+        });
+
+        const prevMonth = calendarDropdown.querySelector('.prev-month');
+        const nextMonth = calendarDropdown.querySelector('.next-month');
+        
+        prevMonth.addEventListener('click', () => {
+          currentDate.setMonth(currentDate.getMonth() - 1);
+          showCalendarDropdown();
+        });
+        
+        nextMonth.addEventListener('click', () => {
+          currentDate.setMonth(currentDate.getMonth() + 1);
+          showCalendarDropdown();
+        });
+      }
+      
+      function selectDate(dayElement) {
+        const day = parseInt(dayElement.textContent);
+        selectedDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          day
+        );
+
+        const options = {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        };
+        
+        let formattedDate = selectedDate.toLocaleDateString('es', options);
+        
+        const parts = formattedDate.split(' ');
+        formattedDate = `${parts[0].replace('.', '')}., ${parts[1]} de ${parts[3]} de ${parts[5]}`;
+        
+        dateInput.value = formattedDate;
+        dateInput.dataset.dateValue = selectedDate.toISOString().split('T')[0];
+        calendarDropdown.classList.remove('active');
+      }
+      
+      function generateCalendarHTML(date, isPreview = false) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        
+        const monthName = date.toLocaleString('es', { month: 'long' });
+        const prevMonthLastDay = new Date(year, month, 0).getDate();
+        
+        let html = `
+          <div class="calendar-header">
+            <button class="calendar-nav prev-month">←</button>
+            <div class="calendar-title">${monthName} ${year}</div>
+            <button class="calendar-nav next-month">→</button>
+          </div>
+        `;
+        
+        if (!isPreview) {
+          html += `
+            <div class="calendar-grid">
+              <div class="calendar-day-header">Lu</div>
+              <div class="calendar-day-header">Ma</div>
+              <div class="calendar-day-header">Mi</div>
+              <div class="calendar-day-header">Ju</div>
+              <div class="calendar-day-header">Vi</div>
+              <div class="calendar-day-header">Sá</div>
+              <div class="calendar-day-header">Do</div>
+          `;
+          
+          const firstDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+          for (let i = firstDayOfWeek; i > 0; i--) {
+            html += `<div class="calendar-day other-month">${prevMonthLastDay - i + 1}</div>`;
+          }
+          
+          for (let i = 1; i <= lastDay.getDate(); i++) {
+            const current = new Date(year, month, i);
+            const isSelected = selectedDate && 
+                             current.getDate() === selectedDate.getDate() && 
+                             current.getMonth() === selectedDate.getMonth() && 
+                             current.getFullYear() === selectedDate.getFullYear();
+            
+            html += `<div class="calendar-day ${isSelected ? 'selected' : ''}">${i}</div>`;
+          }
+          
+          const lastDayOfWeek = lastDay.getDay() === 0 ? 0 : 7 - lastDay.getDay();
+          for (let i = 1; i <= lastDayOfWeek; i++) {
+            html += `<div class="calendar-day other-month">${i}</div>`;
+          }
+          
+          html += `</div>`;
+        } else {
+
+          html += `
+            <div style="text-align: center; padding: 10px; color: #937c5a;">
+              Haz clic para seleccionar una fecha
+            </div>
+          `;
+        }
+        
+        return html;
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.date-picker')) {
+        document.querySelectorAll('.calendar-dropdown').forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
+        document.querySelectorAll('.calendar-preview').forEach(preview => {
+          preview.style.display = 'none';
+        });
+      }
+    });
+  }
+
   const modal = document.getElementById('infoModal');
   const form = document.getElementById('moduleForm');
   const modalTitle = document.getElementById('modalTitle');
@@ -134,11 +282,44 @@ document.addEventListener('DOMContentLoaded', function () {
     currentModuleId = id;
     modalTitle.textContent = title;
     const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
-    const today = new Date().toISOString().split('T')[0];
+
+    initializeDatePickers();
+    
     form.docente.value = data.docente || '';
     form.grupo.value = data.grupo || '';
-    form.inicio.value = data.inicio || today;
-    form.fin.value = data.fin || today;
+
+    if (data.inicio) {
+      const inicioInput = form.querySelector('input[name="inicio"]');
+      const inicioDate = new Date(data.inicio);
+      const options = {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      };
+      let formattedInicio = inicioDate.toLocaleDateString('es', options);
+      const parts = formattedInicio.split(' ');
+      formattedInicio = `${parts[0].replace('.', '')}., ${parts[1]} de ${parts[3]} de ${parts[5]}`;
+      inicioInput.value = formattedInicio;
+      inicioInput.dataset.dateValue = data.inicio;
+    }
+    
+    if (data.fin) {
+      const finInput = form.querySelector('input[name="fin"]');
+      const finDate = new Date(data.fin);
+      const options = {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      };
+      let formattedFin = finDate.toLocaleDateString('es', options);
+      const parts = formattedFin.split(' ');
+      formattedFin = `${parts[0].replace('.', '')}., ${parts[1]} de ${parts[3]} de ${parts[5]}`;
+      finInput.value = formattedFin;
+      finInput.dataset.dateValue = data.fin;
+    }
+    
     form.nota.value = data.nota || '';
     form.estado.value = data.estado || 'Aprobado';
     modal.style.display = 'block';
@@ -148,8 +329,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const data = {
       docente: form.docente.value,
       grupo: form.grupo.value,
-      inicio: form.inicio.value,
-      fin: form.fin.value,
+      inicio: form.querySelector('input[name="inicio"]').dataset.dateValue || '',
+      fin: form.querySelector('input[name="fin"]').dataset.dateValue || '',
       nota: form.nota.value,
       estado: form.estado.value
     };
@@ -173,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function () {
   saveBtn.addEventListener('click', function() {
     saveFormData();
     modal.style.display = 'none';
-    alert('¡Guardado con éxito!');
+    alert('💟 Guardado');
   });
 
   window.addEventListener('click', function(e) {
@@ -181,7 +362,6 @@ document.addEventListener('DOMContentLoaded', function () {
       modal.style.display = 'none';
     }
   });
-
 
   checkUnlocking();
 });
