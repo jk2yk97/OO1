@@ -3,14 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('moduleForm');
   let currentModuleId = '';
 
-  // Función para formatear fecha en español dd de mes de aaaa
   function formatearFechaES(fechaISO) {
     if (!fechaISO) return '';
     const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
     return new Date(fechaISO).toLocaleDateString('es-ES', opciones);
   }
 
-  // Mostrar fechas formateadas con condiciones para evitar coma sola
   function mostrarFechas(inicio, fin) {
     const fInicio = formatearFechaES(inicio);
     const fFin = formatearFechaES(fin);
@@ -21,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return '';
   }
 
-  // Actualizar la info visual debajo del nombre del módulo
   function actualizarInfoModulos() {
     document.querySelectorAll('li[data-id]').forEach(li => {
       const id = li.dataset.id;
@@ -33,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const nota = data.nota ? ` - Nota: ${data.nota}` : '';
       const docente = data.docente ? `Docente: ${data.docente}` : '';
 
-      // Concatenar solo lo que exista, sin espacios extra
       let texto = docente;
       if (fechas) texto += fechas;
       if (estado) texto += estado;
@@ -43,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ABRIR MODAL CON BOTÓN 🛈
   document.querySelectorAll('.info-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -57,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       currentModuleId = id;
 
-      // Cargar datos si existen
       const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
       form.docente.value = data.docente || '';
       form.grupo.value = data.grupo || '';
@@ -70,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // CERRAR MODAL
   document.querySelector('.close-btn').addEventListener('click', () => {
     modal.style.display = 'none';
   });
@@ -81,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // GUARDAR DATOS DEL FORMULARIO
   form.addEventListener('submit', e => {
     e.preventDefault();
 
