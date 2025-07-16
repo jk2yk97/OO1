@@ -1,4 +1,3 @@
-/* Aplica box-sizing globalmente para evitar que padding y border aumenten el ancho total */
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -6,7 +5,7 @@
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
-    color: #ffffff;
+    color: #4b3821;
     background-color: #ffffff;
     margin: 0;
     padding: 20px;
@@ -93,13 +92,6 @@ h1 {
     gap: 8px;
 }
 
-.semester.active-1 li,
-.semester.inactive-1 li,
-.semester.active-2 li,
-.semester.inactive-2 li {
-    color: #927f6a;
-}
-
 li.completed {
     text-decoration-line: line-through;
     text-decoration-style: wavy;
@@ -130,7 +122,6 @@ li.completed {
     min-width: 300px;
 }
 
-/* MODAL */
 .modal {
     display: none;
     position: fixed;
@@ -145,7 +136,7 @@ li.completed {
 
 .modal-content {
     background-color: #fff;
-    color: #927f6a; /* texto general dentro del modal (inputs, selects) café medio */
+    color: #927f6a;
     margin: 10% auto;
     padding: 20px;
     width: 300px;
@@ -188,8 +179,8 @@ li.completed {
     border-radius: 6px;
     padding: 6px 8px;
     background-color: #fff;
-    width: 100%;          /* que ocupe todo el ancho disponible */
-    box-sizing: border-box; /* que el padding y borde no aumenten el ancho */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .modal-content option {
@@ -231,6 +222,7 @@ li.completed {
     opacity: 0.5;
     pointer-events: none;
 }
+
 .save-btn {
   background-color: #836540;
   color: #ffffff;
@@ -247,4 +239,12 @@ li.completed {
 
 .save-btn:hover {
   background-color: #6a5033;
+}
+
+.module-info {
+  font-size: 12px;
+  color: #836540;
+  margin-left: 8px;
+  font-style: italic;
+  margin-top: 2px;
 }
