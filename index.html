@@ -124,18 +124,18 @@
     <div class="modal-content">
       <span class="close-btn">&times;</span>
       <form id="moduleForm">
-        <label>Docente: <input name="docente" /></label><br />
-        <label>Grupo: <input name="grupo" /></label><br />
-        <label>Inicio: <input name="inicio" type="date" /></label><br />
-        <label>Fin: <input name="fin" type="date" /></label><br />
-        <label>Nota: <input name="nota" /></label><br />
+        <label>Docente: <input name="docente" /></label>
+        <label>Grupo: <input name="grupo" /></label>
+        <label>Inicio: <input name="inicio" type="date" /></label>
+        <label>Fin: <input name="fin" type="date" /></label>
+        <label>Nota: <input name="nota" type="number" min="0" max="10" step="0.1" /></label>
         <label>Estado:
           <select name="estado">
             <option value="Aprobado">Aprobado</option>
             <option value="Reprobado">Reprobado</option>
             <option value="En curso">En curso</option>
           </select>
-        </label><br />
+        </label>
       </form>
     </div>
   </div>
