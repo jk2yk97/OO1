@@ -1,0 +1,233 @@
+/* Aplica box-sizing globalmente para evitar que padding y border aumenten el ancho total */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: #ffffff;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #4b3821;
+    text-align: center;
+    margin-bottom: 35px;
+    margin-top: 35px;
+    font-size: 35px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.year-1, .year-2 {
+    margin-bottom: 40px;
+    background-color: #f7f0e8;
+    padding: 15px;
+    border-radius: 30px;
+    border: 4px solid #f7f0e8;
+}
+
+.year-1 h2, .year-2 h2 {
+    color: #836540;
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding-left: 18px;
+}
+
+.semester {
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 40px;
+    background-color: #ffffff;
+}
+
+.semestre-1a,
+.semestre-1b,
+.semestre-2a {
+    margin-bottom: 8px;
+    margin-top: 6px;
+    padding-left: 2px;
+    border-radius: 0px;
+    pointer-events: auto;
+    color: #937c5a;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.module {
+    margin-bottom: 5px;
+    padding: 1px;
+}
+
+.module h4 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 2px 4px 2px 10px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #836540;
+    color: #ffffff;
+}
+
+.module li {
+    margin-bottom: 2px;
+    margin-top: 2px;
+    color: #927f6a;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.semester.active-1 li,
+.semester.inactive-1 li,
+.semester.active-2 li,
+.semester.inactive-2 li {
+    color: #927f6a;
+}
+
+li.completed {
+    text-decoration-line: line-through;
+    text-decoration-style: wavy;
+    text-decoration-color: #6a1b6a;
+    text-decoration-thickness: 2px;
+    text-underline-position: under;
+}
+
+.year.inactive {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.year.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.years-wrapper {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.year {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    color: #927f6a; /* texto general dentro del modal (inputs, selects) café medio */
+    margin: 10% auto;
+    padding: 20px;
+    width: 300px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.modal-content h2,
+.modal-content h3,
+.modal-content h4 {
+    color: #836540;
+    font-weight: bold;
+}
+
+.close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+    color: #836540;
+}
+
+#moduleForm label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+.modal-content label {
+    color: #937c5a;
+    font-weight: bold;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    color: #927f6a;
+    font-weight: bold;
+    border: 1px solid #836540;
+    border-radius: 6px;
+    padding: 6px 8px;
+    background-color: #fff;
+    width: 100%;          /* que ocupe todo el ancho disponible */
+    box-sizing: border-box; /* que el padding y borde no aumenten el ancho */
+}
+
+.modal-content option {
+  font-weight: bold;
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+    color: #927f6a;
+}
+
+.info-btn {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+}
+
+.info-btn img {
+    width: 35px;
+    height: 35px;
+    display: block;
+}
+
+.info-btn:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
+.semester.inactive-1,
+.semester.inactive-2 {
+    opacity: 0.5;
+    pointer-events: none;
+}
