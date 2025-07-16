@@ -122,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   checkUnlocking();
 
+  // MODAL E INFO-BTN
   document.querySelectorAll('.info-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -155,6 +156,25 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.target === modal) {
       modal.style.display = 'none';
     }
+  });
+
+  // ✅ GUARDAR INFO DEL FORMULARIO EN localStorage
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!currentModuleId) return;
+
+    const data = {
+      docente: form.docente.value,
+      grupo: form.grupo.value,
+      inicio: form.inicio.value,
+      fin: form.fin.value,
+      nota: form.nota.value,
+      estado: form.estado.value,
+    };
+
+    localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(data));
+    alert("¡Información guardada!");
+    modal.style.display = 'none';
   });
 
 });
