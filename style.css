@@ -255,6 +255,7 @@ li.completed > span {
     pointer-events: none;
 }
 
+/* Estilos para el date picker */
 .date-picker-wrapper {
     margin-bottom: 15px;
 }
@@ -281,24 +282,6 @@ li.completed > span {
 .date-input:focus {
     outline: none;
     border-color: #836540;
-}
-
-.calendar-preview {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 280px;
-    padding: 15px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    z-index: 1000;
-}
-
-.date-picker:hover .calendar-preview {
-    display: block;
 }
 
 .calendar-dropdown {
