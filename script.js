@@ -134,10 +134,11 @@ document.addEventListener('DOMContentLoaded', function () {
     currentModuleId = id;
     modalTitle.textContent = title;
     const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
+    const today = new Date().toISOString().split('T')[0];
     form.docente.value = data.docente || '';
     form.grupo.value = data.grupo || '';
-    form.inicio.value = data.inicio || '';
-    form.fin.value = data.fin || '';
+    form.inicio.value = data.inicio || today;
+    form.fin.value = data.fin || today;
     form.nota.value = data.nota || '';
     form.estado.value = data.estado || 'Aprobado';
     modal.style.display = 'block';
@@ -180,29 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Drag and drop
-  const modalContent = document.querySelector('.modal-content');
-  const modalHeader = document.querySelector('.modal-header');
-  let isDragging = false;
-  let offset = { x: 0, y: 0 };
-
-  modalHeader.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    offset = {
-      x: e.clientX - modalContent.offsetLeft,
-      y: e.clientY - modalContent.offsetTop
-    };
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    modalContent.style.left = `${e.clientX - offset.x}px`;
-    modalContent.style.top = `${e.clientY - offset.y}px`;
-  });
-
-  document.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
 
   checkUnlocking();
 });
