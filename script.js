@@ -3,42 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('moduleForm');
   let currentModuleId = '';
 
-  function formatearFechaES(fechaISO) {
-    if (!fechaISO) return '';
-    const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
-    return new Date(fechaISO).toLocaleDateString('es-ES', opciones);
-  }
-
-  function mostrarFechas(inicio, fin) {
-    const fInicio = formatearFechaES(inicio);
-    const fFin = formatearFechaES(fin);
-
-    if (fInicio && fFin) return `, del ${fInicio} al ${fFin}`;
-    if (fInicio) return `, desde ${fInicio}`;
-    if (fFin) return `, hasta ${fFin}`;
-    return '';
-  }
-
-  function actualizarInfoModulos() {
-    document.querySelectorAll('li[data-id]').forEach(li => {
-      const id = li.dataset.id;
-      const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
-      const infoDiv = li.querySelector('.module-info');
-
-      const fechas = mostrarFechas(data.inicio, data.fin);
-      const estado = data.estado ? ` - Estado: ${data.estado}` : '';
-      const nota = data.nota ? ` - Nota: ${data.nota}` : '';
-      const docente = data.docente ? `Docente: ${data.docente}` : '';
-
-      let texto = docente;
-      if (fechas) texto += fechas;
-      if (estado) texto += estado;
-      if (nota) texto += nota;
-
-      infoDiv.textContent = texto;
-    });
-  }
-
   document.querySelectorAll('.info-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -60,6 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
       form.nota.value = data.nota || '';
       form.estado.value = data.estado || 'Aprobado';
 
+      if (data.estado === 'Aprobado') {
+        li.classList.add('completed');
+      } else {
+        li.classList.remove('completed');
+      }
+
+      console.log('Abriendo modal para:', id);
       modal.style.display = 'block';
     });
   });
@@ -83,25 +54,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const formData = {
-      docente: form.docente.value.trim(),
-      grupo: form.grupo.value.trim(),
+      docente: form.docente.value,
+      grupo: form.grupo.value,
       inicio: form.inicio.value,
       fin: form.fin.value,
-      nota: form.nota.value.trim(),
+      nota: form.nota.value,
       estado: form.estado.value
     };
 
     try {
       localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(formData));
-      alert('💟 Guardado');
+      console.log('Guardado:', `modinfo-${currentModuleId}`, formData);
+      alert('💌 Guardado');
+
+      const li = document.querySelector(`li[data-id="${currentModuleId}"]`);
+      if (li) {
+        if (formData.estado === 'Aprobado') {
+          li.classList.add('completed');
+        } else {
+          li.classList.remove('completed');
+        }
+      }
     } catch (err) {
       console.error('Error al guardar en localStorage', err);
       alert('💟 Error');
     }
 
-    actualizarInfoModulos();
     modal.style.display = 'none';
   });
 
-  actualizarInfoModulos();
+  document.querySelectorAll('li[data-id]').forEach(li => {
+    const id = li.dataset.id;
+    const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
+    if (data.estado === 'Aprobado') {
+      li.classList.add('completed');
+    }
+  });
 });
