@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Cargar estado desde localStorage
   allSubjects.forEach(li => {
-    const key = li.textContent.trim();
+    const key = li.querySelector('span').textContent.trim();
     const saved = localStorage.getItem(key);
     if (saved === 'completed') {
       li.classList.add('completed');
@@ -18,13 +18,13 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   function isCompleted(text) {
-    const li = [...allSubjects].find(el => el.textContent.trim() === text);
+    const li = [...allSubjects].find(el => el.querySelector('span').textContent.trim() === text);
     return li && li.classList.contains('completed');
   }
 
   function checkUnlocking() {
     const firstSemSubjects = [...firstSemester.querySelectorAll('li')];
-    const firstSemNonEnglish = firstSemSubjects.filter(li => !li.textContent.includes('English'));
+    const firstSemNonEnglish = firstSemSubjects.filter(li => !li.querySelector('span').textContent.includes('English'));
     const allFirstSemNonEnglishCompleted = firstSemNonEnglish.every(li => li.classList.contains('completed'));
 
     if (allFirstSemNonEnglishCompleted) {
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function enableEnglish(text) {
-    const li = [...allSubjects].find(el => el.textContent.trim() === text);
+    const li = [...allSubjects].find(el => el.querySelector('span').textContent.trim() === text);
     if (li) {
       li.style.opacity = '1';
       li.style.pointerEvents = 'auto';
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function disableEnglish(text) {
-    const li = [...allSubjects].find(el => el.textContent.trim() === text);
+    const li = [...allSubjects].find(el => el.querySelector('span').textContent.trim() === text);
     if (li) {
       li.style.opacity = '0.5';
       li.style.pointerEvents = 'none';
@@ -87,20 +87,22 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   allSubjects.forEach(li => {
-    const key = li.textContent.trim();
+    const key = li.querySelector('span').textContent.trim();
     if ((key === 'English A2 Waystage' || key === 'English B1 Threshold') && !isCompleted(key)) {
       disableEnglish(key);
     }
 
-    li.addEventListener('click', () => {
+    li.addEventListener('click', (e) => {
+      if (e.target.closest('.info-btn')) return;
+
       const semester = li.closest('.semester');
       if (!semester) return;
 
       const isActive = semester.classList.contains('active-1') || semester.classList.contains('active-2');
       if (!isActive) return;
 
-      const isEnglish = li.textContent.includes('English');
-      const text = li.textContent.trim();
+      const isEnglish = li.querySelector('span').textContent.includes('English');
+      const text = li.querySelector('span').textContent.trim();
 
       if (isEnglish) {
         const canComplete =
@@ -124,10 +126,13 @@ document.addEventListener('DOMContentLoaded', function () {
   // Modal functionality
   const modal = document.getElementById('infoModal');
   const form = document.getElementById('moduleForm');
+  const modalTitle = document.getElementById('modalTitle');
+  const saveBtn = document.getElementById('saveBtn');
   let currentModuleId = '';
 
-  function openModal(id) {
+  function openModal(id, title) {
     currentModuleId = id;
+    modalTitle.textContent = title;
     const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
     form.docente.value = data.docente || '';
     form.grupo.value = data.grupo || '';
@@ -155,20 +160,48 @@ document.addEventListener('DOMContentLoaded', function () {
       e.stopPropagation();
       const li = this.closest('li');
       const id = li.dataset.id;
-      openModal(id);
+      const title = li.querySelector('span').textContent.trim();
+      openModal(id, title);
     });
   });
 
   document.querySelector('.close-btn').addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+
+  saveBtn.addEventListener('click', function() {
     saveFormData();
     modal.style.display = 'none';
   });
 
   window.addEventListener('click', function(e) {
     if (e.target === modal) {
-      saveFormData();
       modal.style.display = 'none';
     }
+  });
+
+  // Drag and drop
+  const modalContent = document.querySelector('.modal-content');
+  const modalHeader = document.querySelector('.modal-header');
+  let isDragging = false;
+  let offset = { x: 0, y: 0 };
+
+  modalHeader.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offset = {
+      x: e.clientX - modalContent.offsetLeft,
+      y: e.clientY - modalContent.offsetTop
+    };
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    modalContent.style.left = `${e.clientX - offset.x}px`;
+    modalContent.style.top = `${e.clientY - offset.y}px`;
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
   });
 
   checkUnlocking();
