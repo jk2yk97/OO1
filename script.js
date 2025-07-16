@@ -148,6 +148,29 @@ document.addEventListener('DOMContentLoaded', function () {
             selectDate(day);
           });
         });
+
+        const clearBtn = calendarDropdown.querySelector('.clear-date-btn');
+        clearBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          clearDate();
+          calendarDropdown.classList.remove('active');
+        });
+        
+        const prevMonth = calendarDropdown.querySelector('.prev-month');
+        const nextMonth = calendarDropdown.querySelector('.next-month');
+        
+        prevMonth.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentDate.setMonth(currentDate.getMonth() - 1);
+          showCalendarDropdown();
+        });
+        
+        nextMonth.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentDate.setMonth(currentDate.getMonth() + 1);
+          showCalendarDropdown();
+        });
+      }
         
         const prevMonth = calendarDropdown.querySelector('.prev-month');
         const nextMonth = calendarDropdown.querySelector('.next-month');
@@ -326,9 +349,14 @@ document.addEventListener('DOMContentLoaded', function () {
       const inicioParts = inicioValue.split('-');
       const inicioDate = new Date(inicioParts[0], inicioParts[1] - 1, inicioParts[2]);
       if (isNaN(inicioDate.getTime())) {
-        alert('La fecha de inicio no es válida');
+        alert('💟 La fecha de inicio no es válida');
         return;
       }
+    }
+
+    if (finValue && !inicioValue) {
+      alert('💟 Debes seleccionar una fecha de inicio si has seleccionado fecha de fin');
+      return;
     }
     
     if (finValue) {
