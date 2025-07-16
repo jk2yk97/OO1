@@ -122,50 +122,42 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // Date Picker Functionality
   function initializeDatePickers() {
     const datePickers = document.querySelectorAll('.date-picker');
     
     datePickers.forEach(picker => {
       const dateInput = picker.querySelector('.date-input');
-      const calendarPreview = picker.querySelector('.calendar-preview');
       const calendarDropdown = picker.querySelector('.calendar-dropdown');
       
       let currentDate = new Date();
       let selectedDate = null;
-
-      dateInput.addEventListener('mouseenter', showCalendarPreview);
-      dateInput.addEventListener('mouseleave', () => {
-        if (!calendarDropdown.classList.contains('active')) {
-          calendarPreview.style.display = 'none';
-        }
-      });
-
-      dateInput.addEventListener('click', showCalendarDropdown);
       
-      function showCalendarPreview() {
-        calendarPreview.innerHTML = generateCalendarHTML(currentDate, true);
-        calendarPreview.style.display = 'block';
-      }
+      // Mostrar calendario al hacer click
+      dateInput.addEventListener('click', showCalendarDropdown);
       
       function showCalendarDropdown() {
         calendarDropdown.innerHTML = generateCalendarHTML(currentDate);
         calendarDropdown.classList.add('active');
-        calendarPreview.style.display = 'none';
-
+        
+        // Agregar eventos a los días del calendario
         const days = calendarDropdown.querySelectorAll('.calendar-day:not(.other-month)');
         days.forEach(day => {
           day.addEventListener('click', () => selectDate(day));
         });
-
+        
+        // Agregar eventos a los controles del calendario
         const prevMonth = calendarDropdown.querySelector('.prev-month');
         const nextMonth = calendarDropdown.querySelector('.next-month');
         
-        prevMonth.addEventListener('click', () => {
+        prevMonth.addEventListener('click', (e) => {
+          e.stopPropagation();
           currentDate.setMonth(currentDate.getMonth() - 1);
           showCalendarDropdown();
         });
         
-        nextMonth.addEventListener('click', () => {
+        nextMonth.addEventListener('click', (e) => {
+          e.stopPropagation();
           currentDate.setMonth(currentDate.getMonth() + 1);
           showCalendarDropdown();
         });
@@ -178,25 +170,28 @@ document.addEventListener('DOMContentLoaded', function () {
           currentDate.getMonth(),
           day
         );
-
-        const options = {
-          weekday: 'short',
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric'
-        };
         
-        let formattedDate = selectedDate.toLocaleDateString('es', options);
-        
-        const parts = formattedDate.split(' ');
-        formattedDate = `${parts[0].replace('.', '')}., ${parts[1]} de ${parts[3]} de ${parts[5]}`;
+        // Formatear la fecha correctamente
+        const formattedDate = formatDate(selectedDate);
         
         dateInput.value = formattedDate;
         dateInput.dataset.dateValue = selectedDate.toISOString().split('T')[0];
         calendarDropdown.classList.remove('active');
       }
       
-      function generateCalendarHTML(date, isPreview = false) {
+      function formatDate(date) {
+        const options = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+        let formatted = date.toLocaleDateString('es', options);
+        
+        // Corregir el formato del día de la semana (quitar punto si existe y agregar uno al final)
+        formatted = formatted.replace(/^(\w{3})\.?/, '$1.');
+        
+        // Reorganizar las partes para el formato deseado
+        const parts = formatted.split(' ');
+        return `${parts[0]} ${parts[1]} de ${parts[3]} de ${parts[5]}`;
+      }
+      
+      function generateCalendarHTML(date) {
         const year = date.getFullYear();
         const month = date.getMonth();
         
@@ -212,66 +207,56 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="calendar-title">${monthName} ${year}</div>
             <button class="calendar-nav next-month">→</button>
           </div>
+          <div class="calendar-grid">
+            <div class="calendar-day-header">Lu</div>
+            <div class="calendar-day-header">Ma</div>
+            <div class="calendar-day-header">Mi</div>
+            <div class="calendar-day-header">Ju</div>
+            <div class="calendar-day-header">Vi</div>
+            <div class="calendar-day-header">Sá</div>
+            <div class="calendar-day-header">Do</div>
         `;
         
-        if (!isPreview) {
-          html += `
-            <div class="calendar-grid">
-              <div class="calendar-day-header">Lu</div>
-              <div class="calendar-day-header">Ma</div>
-              <div class="calendar-day-header">Mi</div>
-              <div class="calendar-day-header">Ju</div>
-              <div class="calendar-day-header">Vi</div>
-              <div class="calendar-day-header">Sá</div>
-              <div class="calendar-day-header">Do</div>
-          `;
-          
-          const firstDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
-          for (let i = firstDayOfWeek; i > 0; i--) {
-            html += `<div class="calendar-day other-month">${prevMonthLastDay - i + 1}</div>`;
-          }
-          
-          for (let i = 1; i <= lastDay.getDate(); i++) {
-            const current = new Date(year, month, i);
-            const isSelected = selectedDate && 
-                             current.getDate() === selectedDate.getDate() && 
-                             current.getMonth() === selectedDate.getMonth() && 
-                             current.getFullYear() === selectedDate.getFullYear();
-            
-            html += `<div class="calendar-day ${isSelected ? 'selected' : ''}">${i}</div>`;
-          }
-          
-          const lastDayOfWeek = lastDay.getDay() === 0 ? 0 : 7 - lastDay.getDay();
-          for (let i = 1; i <= lastDayOfWeek; i++) {
-            html += `<div class="calendar-day other-month">${i}</div>`;
-          }
-          
-          html += `</div>`;
-        } else {
-
-          html += `
-            <div style="text-align: center; padding: 10px; color: #937c5a;">
-              Haz clic para seleccionar una fecha
-            </div>
-          `;
+        // Días del mes anterior
+        const firstDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+        for (let i = firstDayOfWeek; i > 0; i--) {
+          html += `<div class="calendar-day other-month">${prevMonthLastDay - i + 1}</div>`;
         }
+        
+        // Días del mes actual
+        for (let i = 1; i <= lastDay.getDate(); i++) {
+          const current = new Date(year, month, i);
+          const isSelected = selectedDate && 
+                           current.getDate() === selectedDate.getDate() && 
+                           current.getMonth() === selectedDate.getMonth() && 
+                           current.getFullYear() === selectedDate.getFullYear();
+          
+          html += `<div class="calendar-day ${isSelected ? 'selected' : ''}">${i}</div>`;
+        }
+        
+        // Días del próximo mes
+        const lastDayOfWeek = lastDay.getDay() === 0 ? 0 : 7 - lastDay.getDay();
+        for (let i = 1; i <= lastDayOfWeek; i++) {
+          html += `<div class="calendar-day other-month">${i}</div>`;
+        }
+        
+        html += `</div>`;
         
         return html;
       }
     });
-
+    
+    // Cerrar calendarios al hacer click fuera
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.date-picker')) {
         document.querySelectorAll('.calendar-dropdown').forEach(dropdown => {
           dropdown.classList.remove('active');
         });
-        document.querySelectorAll('.calendar-preview').forEach(preview => {
-          preview.style.display = 'none';
-        });
       }
     });
   }
 
+  // Modal functionality
   const modal = document.getElementById('infoModal');
   const form = document.getElementById('moduleForm');
   const modalTitle = document.getElementById('modalTitle');
@@ -282,47 +267,43 @@ document.addEventListener('DOMContentLoaded', function () {
     currentModuleId = id;
     modalTitle.textContent = title;
     const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
-
+    
+    // Inicializar date pickers antes de cargar los valores
     initializeDatePickers();
     
     form.docente.value = data.docente || '';
     form.grupo.value = data.grupo || '';
-
+    
+    // Establecer valores de fecha si existen
     if (data.inicio) {
       const inicioInput = form.querySelector('input[name="inicio"]');
       const inicioDate = new Date(data.inicio);
-      const options = {
-        weekday: 'short',
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-      };
-      let formattedInicio = inicioDate.toLocaleDateString('es', options);
-      const parts = formattedInicio.split(' ');
-      formattedInicio = `${parts[0].replace('.', '')}., ${parts[1]} de ${parts[3]} de ${parts[5]}`;
-      inicioInput.value = formattedInicio;
+      inicioInput.value = formatDateForDisplay(inicioDate);
       inicioInput.dataset.dateValue = data.inicio;
     }
     
     if (data.fin) {
       const finInput = form.querySelector('input[name="fin"]');
       const finDate = new Date(data.fin);
-      const options = {
-        weekday: 'short',
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-      };
-      let formattedFin = finDate.toLocaleDateString('es', options);
-      const parts = formattedFin.split(' ');
-      formattedFin = `${parts[0].replace('.', '')}., ${parts[1]} de ${parts[3]} de ${parts[5]}`;
-      finInput.value = formattedFin;
+      finInput.value = formatDateForDisplay(finDate);
       finInput.dataset.dateValue = data.fin;
     }
     
     form.nota.value = data.nota || '';
     form.estado.value = data.estado || 'Aprobado';
     modal.style.display = 'block';
+  }
+
+  function formatDateForDisplay(date) {
+    const options = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+    let formatted = date.toLocaleDateString('es', options);
+    
+    // Corregir el formato del día de la semana
+    formatted = formatted.replace(/^(\w{3})\.?/, '$1.');
+    
+    // Reorganizar las partes para el formato deseado
+    const parts = formatted.split(' ');
+    return `${parts[0]} ${parts[1]} de ${parts[3]} de ${parts[5]}`;
   }
 
   function saveFormData() {
