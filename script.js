@@ -167,6 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
       
       function selectDate(dayElement) {
         const day = parseInt(dayElement.textContent);
+
         selectedDate = new Date(
           currentDate.getFullYear(),
           currentDate.getMonth(),
@@ -174,7 +175,8 @@ document.addEventListener('DOMContentLoaded', function () {
         );
         
         dateInput.value = formatDate(selectedDate);
-        dateInput.dataset.dateValue = selectedDate.toISOString().split('T')[0];
+
+        dateInput.dataset.dateValue = formatDateForStorage(selectedDate);
         calendarDropdown.classList.remove('active');
       }
       
@@ -185,6 +187,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const year = date.getFullYear();
         
         return `${weekday}., ${day} de ${month}. de ${year}`;
+      }
+      
+      function formatDateForStorage(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
       }
       
       function generateCalendarHTML(date) {
@@ -245,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
-  
+
   const modal = document.getElementById('infoModal');
   const form = document.getElementById('moduleForm');
   const modalTitle = document.getElementById('modalTitle');
@@ -264,15 +273,13 @@ document.addEventListener('DOMContentLoaded', function () {
     
     if (data.inicio) {
       const inicioInput = form.querySelector('input[name="inicio"]');
-      const inicioDate = new Date(data.inicio);
-      inicioInput.value = formatDateForDisplay(inicioDate);
+      inicioInput.value = formatDateForDisplay(data.inicio);
       inicioInput.dataset.dateValue = data.inicio;
     }
     
     if (data.fin) {
       const finInput = form.querySelector('input[name="fin"]');
-      const finDate = new Date(data.fin);
-      finInput.value = formatDateForDisplay(finDate);
+      finInput.value = formatDateForDisplay(data.fin);
       finInput.dataset.dateValue = data.fin;
     }
     
@@ -281,36 +288,43 @@ document.addEventListener('DOMContentLoaded', function () {
     modal.style.display = 'block';
   }
 
-  function formatDateForDisplay(date) {
-    if (!date) return '';
+  function formatDateForDisplay(dateString) {
+    if (!dateString) return '';
+
+    const parts = dateString.split('-');
+    if (parts.length !== 3) return '';
     
-    const d = new Date(date);
-    if (isNaN(d.getTime())) return '';
+    const date = new Date(parts[0], parts[1] - 1, parts[2]);
+    if (isNaN(date.getTime())) return '';
     
-    const weekday = d.toLocaleDateString('es', { weekday: 'short' }).replace('.', '');
-    const day = d.getDate();
-    const month = d.toLocaleDateString('es', { month: 'short' }).replace('.', '');
-    const year = d.getFullYear();
+    const weekday = date.toLocaleDateString('es', { weekday: 'short' }).replace('.', '');
+    const day = date.getDate();
+    const month = date.toLocaleDateString('es', { month: 'short' }).replace('.', '');
+    const year = date.getFullYear();
     
     return `${weekday}., ${day} de ${month}. de ${year}`;
   }
 
   function saveFormData() {
-
     const inicioValue = form.querySelector('input[name="inicio"]').dataset.dateValue || '';
     const finValue = form.querySelector('input[name="fin"]').dataset.dateValue || '';
-    
-    const inicioDate = inicioValue ? new Date(inicioValue) : null;
-    const finDate = finValue ? new Date(finValue) : null;
 
-    if (inicioValue && isNaN(inicioDate.getTime())) {
-      alert('La fecha de inicio no es válida');
-      return;
+    if (inicioValue) {
+      const inicioParts = inicioValue.split('-');
+      const inicioDate = new Date(inicioParts[0], inicioParts[1] - 1, inicioParts[2]);
+      if (isNaN(inicioDate.getTime())) {
+        alert('La fecha de inicio no es válida');
+        return;
+      }
     }
     
-    if (finValue && isNaN(finDate.getTime())) {
-      alert('La fecha de fin no es válida');
-      return;
+    if (finValue) {
+      const finParts = finValue.split('-');
+      const finDate = new Date(finParts[0], finParts[1] - 1, finParts[2]);
+      if (isNaN(finDate.getTime())) {
+        alert('La fecha de fin no es válida');
+        return;
+      }
     }
     
     const data = {
@@ -323,6 +337,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     
     localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(data));
+    alert('💟 Guardado correctamente');
   }
 
   document.querySelectorAll('.info-btn').forEach(btn => {
@@ -342,7 +357,6 @@ document.addEventListener('DOMContentLoaded', function () {
   saveBtn.addEventListener('click', function() {
     saveFormData();
     modal.style.display = 'none';
-    alert('💟 Guardado');
   });
 
   window.addEventListener('click', function(e) {
