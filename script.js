@@ -167,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function () {
       
       function selectDate(dayElement) {
         const day = parseInt(dayElement.textContent);
-
         selectedDate = new Date(
           currentDate.getFullYear(),
           currentDate.getMonth(),
@@ -175,12 +174,19 @@ document.addEventListener('DOMContentLoaded', function () {
         );
         
         dateInput.value = formatDate(selectedDate);
-
         dateInput.dataset.dateValue = formatDateForStorage(selectedDate);
         calendarDropdown.classList.remove('active');
       }
       
+      // Nueva función para borrar fecha
+      function clearDate() {
+        dateInput.value = '';
+        dateInput.dataset.dateValue = '';
+        selectedDate = null;
+      }
+
       function formatDate(date) {
+        if (!date) return '';
         const weekday = date.toLocaleDateString('es', { weekday: 'short' }).replace('.', '');
         const day = date.getDate();
         const month = date.toLocaleDateString('es', { month: 'short' }).replace('.', '');
@@ -211,6 +217,9 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="calendar-title">${monthName} ${year}</div>
             <button class="calendar-nav next-month">→</button>
           </div>
+          <div class="calendar-actions">
+            <button class="clear-date-btn">Borrar fecha</button>
+          </div>
           <div class="calendar-grid">
             <div class="calendar-day-header">L</div>
             <div class="calendar-day-header">M</div>
@@ -220,6 +229,10 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="calendar-day-header">S</div>
             <div class="calendar-day-header">D</div>
         `;
+        
+        return html;
+      }
+    });
         
         const firstDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
         for (let i = firstDayOfWeek; i > 0; i--) {
