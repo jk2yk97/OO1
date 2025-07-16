@@ -255,7 +255,6 @@ li.completed > span {
     pointer-events: none;
 }
 
-/* Estilos para el date picker */
 .date-picker-wrapper {
     margin-bottom: 15px;
 }
