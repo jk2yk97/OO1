@@ -125,16 +125,16 @@ li.completed {
     min-width: 300px;
 }
 
+/* MODAL */
 .modal {
     display: none;
     position: fixed;
-    z-index: 999;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal-content {
@@ -144,6 +144,17 @@ li.completed {
     width: 320px;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 24px;
+    color: #836540;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .modal-content label {
@@ -151,7 +162,6 @@ li.completed {
     font-weight: bold;
     display: block;
     margin: 15px 0 5px;
-    font-size: 14px;
 }
 
 .modal-content input,
@@ -160,47 +170,16 @@ li.completed {
     padding: 8px 12px;
     border: 1px solid #d4c8b5;
     border-radius: 8px;
-    font-size: 14px;
     color: #937c5a;
     font-weight: bold;
     background-color: #f9f7f3;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 .modal-content input:focus,
 .modal-content select:focus {
     outline: none;
     border-color: #836540;
-    box-shadow: 0 0 0 2px rgba(131, 101, 64, 0.2);
-}
-
-.close-btn {
-    float: right;
-    font-size: 24px;
-    cursor: pointer;
-    color: #836540;
-    font-weight: bold;
-    transition: color 0.2s;
-    margin-top: -10px;
-    margin-right: -5px;
-}
-
-.close-btn:hover {
-    color: #6a1b6a;
-}
-
-#moduleForm {
-    margin-top: 15px;
-}
-
-.modal-content option {
-    color: #937c5a;
-    font-weight: bold;
-}
-
-.modal-content input::placeholder {
-    color: #c0b3a0;
-    opacity: 0.8;
 }
 
 .info-btn {
