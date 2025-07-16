@@ -282,23 +282,46 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function formatDateForDisplay(date) {
-    const weekday = date.toLocaleDateString('es', { weekday: 'short' }).replace('.', '');
-    const day = date.getDate();
-    const month = date.toLocaleDateString('es', { month: 'short' }).replace('.', '');
-    const year = date.getFullYear();
+    if (!date) return '';
+    
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    
+    const weekday = d.toLocaleDateString('es', { weekday: 'short' }).replace('.', '');
+    const day = d.getDate();
+    const month = d.toLocaleDateString('es', { month: 'short' }).replace('.', '');
+    const year = d.getFullYear();
     
     return `${weekday}., ${day} de ${month}. de ${year}`;
   }
 
   function saveFormData() {
+
+    const inicioValue = form.querySelector('input[name="inicio"]').dataset.dateValue || '';
+    const finValue = form.querySelector('input[name="fin"]').dataset.dateValue || '';
+    
+    const inicioDate = inicioValue ? new Date(inicioValue) : null;
+    const finDate = finValue ? new Date(finValue) : null;
+
+    if (inicioValue && isNaN(inicioDate.getTime())) {
+      alert('La fecha de inicio no es válida');
+      return;
+    }
+    
+    if (finValue && isNaN(finDate.getTime())) {
+      alert('La fecha de fin no es válida');
+      return;
+    }
+    
     const data = {
       docente: form.docente.value,
       grupo: form.grupo.value,
-      inicio: form.querySelector('input[name="inicio"]').dataset.dateValue || '',
-      fin: form.querySelector('input[name="fin"]').dataset.dateValue || '',
+      inicio: inicioValue,
+      fin: finValue,
       nota: form.nota.value,
       estado: form.estado.value
     };
+    
     localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(data));
   }
 
