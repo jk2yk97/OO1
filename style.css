@@ -162,7 +162,6 @@ li.completed > span {
     align-items: center;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    cursor: move;
 }
 
 .modal-header h2 {
