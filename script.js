@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
   const allSubjects = document.querySelectorAll('li');
   const semesters = document.querySelectorAll('.semester');
+
   const firstSemester = semesters[0];
   const secondSemester = semesters[1];
+
   const year1 = document.querySelector('.year-1');
   const year2 = document.querySelector('.year-2');
 
@@ -119,56 +121,38 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   checkUnlocking();
-
-  const modal = document.getElementById('infoModal');
-  const form = document.getElementById('moduleForm');
-  let currentModuleId = '';
-
-  document.querySelectorAll('.info-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      const li = btn.closest('li');
-      const id = li.dataset.id;
-      openModal(id);
-    });
+});
+document.querySelectorAll('.info-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const li = btn.closest('li');
+    const id = li.dataset.id;
+    openModal(id);
   });
+});
 
-  function openModal(id) {
-    currentModuleId = id;
-    const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
-    form.docente.value = data.docente || '';
-    form.grupo.value = data.grupo || '';
-    form.inicio.value = data.inicio || '';
-    form.fin.value = data.fin || '';
-    form.nota.value = data.nota || '';
-    form.estado.value = data.estado || 'Aprobado';
-    modal.style.display = 'block';
+const modal = document.getElementById('infoModal');
+const form = document.getElementById('moduleForm');
+let currentModuleId = '';
+
+function openModal(id) {
+  currentModuleId = id;
+  const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
+  form.docente.value = data.docente || '';
+  form.grupo.value = data.grupo || '';
+  form.inicio.value = data.inicio || '';
+  form.fin.value = data.fin || '';
+  form.nota.value = data.nota || '';
+  form.estado.value = data.estado || 'Aprobado';
+  modal.style.display = 'block';
+}
+
+document.querySelector('.close-btn').addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', e => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
   }
-
-  document.querySelector('.close-btn').addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
-
-  window.addEventListener('click', e => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    if (!currentModuleId) return;
-
-    const formData = {
-      docente: form.docente.value,
-      grupo: form.grupo.value,
-      inicio: form.inicio.value,
-      fin: form.fin.value,
-      nota: form.nota.value,
-      estado: form.estado.value
-    };
-
-    localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(formData));
-    modal.style.display = 'none';
-  });
 });
