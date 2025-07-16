@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   const allSubjects = document.querySelectorAll('li');
   const semesters = document.querySelectorAll('.semester');
-
   const firstSemester = semesters[0];
   const secondSemester = semesters[1];
-
   const year1 = document.querySelector('.year-1');
   const year2 = document.querySelector('.year-2');
 
@@ -122,7 +120,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   checkUnlocking();
 
-  // MODAL E INFO-BTN
+  const modal = document.getElementById('infoModal');
+  const form = document.getElementById('moduleForm');
+  let currentModuleId = '';
+
   document.querySelectorAll('.info-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -131,10 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
       openModal(id);
     });
   });
-
-  const modal = document.getElementById('infoModal');
-  const form = document.getElementById('moduleForm');
-  let currentModuleId = '';
 
   function openModal(id) {
     currentModuleId = id;
@@ -158,23 +155,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // ✅ GUARDAR INFO DEL FORMULARIO EN localStorage
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', e => {
     e.preventDefault();
     if (!currentModuleId) return;
 
-    const data = {
+    const formData = {
       docente: form.docente.value,
       grupo: form.grupo.value,
       inicio: form.inicio.value,
       fin: form.fin.value,
       nota: form.nota.value,
-      estado: form.estado.value,
+      estado: form.estado.value
     };
 
-    localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(data));
-    alert("¡Información guardada!");
+    localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(formData));
     modal.style.display = 'none';
   });
-
 });
