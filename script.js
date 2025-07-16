@@ -3,6 +3,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('moduleForm');
   let currentModuleId = '';
 
+  // Función para formatear fecha en español dd de mes de aaaa
+  function formatearFechaES(fechaISO) {
+    if (!fechaISO) return '';
+    const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
+    return new Date(fechaISO).toLocaleDateString('es-ES', opciones);
+  }
+
+  // Mostrar fechas formateadas con condiciones para evitar coma sola
+  function mostrarFechas(inicio, fin) {
+    const fInicio = formatearFechaES(inicio);
+    const fFin = formatearFechaES(fin);
+
+    if (fInicio && fFin) return `, del ${fInicio} al ${fFin}`;
+    if (fInicio) return `, desde ${fInicio}`;
+    if (fFin) return `, hasta ${fFin}`;
+    return '';
+  }
+
+  // Actualizar la info visual debajo del nombre del módulo
+  function actualizarInfoModulos() {
+    document.querySelectorAll('li[data-id]').forEach(li => {
+      const id = li.dataset.id;
+      const data = JSON.parse(localStorage.getItem(`modinfo-${id}`)) || {};
+      const infoDiv = li.querySelector('.module-info');
+
+      const fechas = mostrarFechas(data.inicio, data.fin);
+      const estado = data.estado ? ` - Estado: ${data.estado}` : '';
+      const nota = data.nota ? ` - Nota: ${data.nota}` : '';
+      const docente = data.docente ? `Docente: ${data.docente}` : '';
+
+      // Concatenar solo lo que exista, sin espacios extra
+      let texto = docente;
+      if (fechas) texto += fechas;
+      if (estado) texto += estado;
+      if (nota) texto += nota;
+
+      infoDiv.textContent = texto;
+    });
+  }
+
   // ABRIR MODAL CON BOTÓN 🛈
   document.querySelectorAll('.info-btn').forEach(btn => {
     btn.addEventListener('click', e => {
@@ -26,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
       form.nota.value = data.nota || '';
       form.estado.value = data.estado || 'Aprobado';
 
-      console.log('Abriendo modal para:', id);
       modal.style.display = 'block';
     });
   });
@@ -42,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // GUARDAR DATOS
+  // GUARDAR DATOS DEL FORMULARIO
   form.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -52,23 +91,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const formData = {
-      docente: form.docente.value,
-      grupo: form.grupo.value,
+      docente: form.docente.value.trim(),
+      grupo: form.grupo.value.trim(),
       inicio: form.inicio.value,
       fin: form.fin.value,
-      nota: form.nota.value,
+      nota: form.nota.value.trim(),
       estado: form.estado.value
     };
 
     try {
       localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(formData));
-      console.log('Guardado:', `modinfo-${currentModuleId}`, formData);
-      alert('Información guardada correctamente ✅');
+      alert('💟 Guardado');
     } catch (err) {
       console.error('Error al guardar en localStorage', err);
-      alert('❌ Error al guardar en localStorage');
+      alert('💟 Error');
     }
 
+    actualizarInfoModulos();
     modal.style.display = 'none';
   });
+
+  actualizarInfoModulos();
 });
