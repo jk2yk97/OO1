@@ -6,13 +6,21 @@
   <title>Técnico Especialista en Atención al Cliente y Recepción Hotelera</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-
+ 
     .module-info {
       font-size: 12px;
       color: #836540;
       margin-left: 8px;
       font-style: italic;
       margin-top: 2px;
+    }
+
+    li.completed {
+      text-decoration-line: line-through;
+      text-decoration-style: wavy;
+      text-decoration-color: #6a1b6a;
+      text-decoration-thickness: 2px;
+      text-underline-position: under;
     }
   </style>
 </head>
@@ -281,14 +289,23 @@
 
         try {
           localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(formData));
-          alert('Información guardada correctamente ✅');
+          alert('💌 Guardado');
         } catch (err) {
           console.error('Error al guardar en localStorage', err);
-          alert('❌ Error al guardar en localStorage');
+          alert('💟 Error');
         }
 
         actualizarInfoModulos();
         modal.style.display = 'none';
+      });
+
+      document.querySelectorAll('li[data-id]').forEach(li => {
+        li.addEventListener('click', e => {
+
+          if (e.target.closest('.info-btn')) return;
+
+          li.classList.toggle('completed');
+        });
       });
 
       actualizarInfoModulos();
