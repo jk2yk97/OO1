@@ -92,7 +92,7 @@ h1 {
 .semester.inactive-1 li,
 .semester.active-2 li,
 .semester.inactive-2 li {
-    color: #927f6a;
+color: #927f6a;
 }
 
 li.completed > span {
@@ -125,7 +125,6 @@ li.completed > span {
     min-width: 300px;
 }
 
-/* MODAL */
 .modal {
     display: none;
     position: fixed;
@@ -189,7 +188,7 @@ li.completed > span {
     margin: 15px 0 5px;
 }
 
-.modal-content input,
+.modal-content input:not(.date-input),
 .modal-content select {
     width: 100%;
     padding: 8px 12px;
@@ -254,4 +253,122 @@ li.completed > span {
 .semester.inactive-2 {
     opacity: 0.5;
     pointer-events: none;
+}
+
+.date-picker-wrapper {
+    margin-bottom: 15px;
+}
+
+.date-picker {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.date-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d4c8b5;
+    border-radius: 8px;
+    color: #937c5a;
+    font-weight: bold;
+    background-color: #f9f7f3;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.date-input:focus {
+    outline: none;
+    border-color: #836540;
+}
+
+.calendar-preview {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 280px;
+    padding: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.date-picker:hover .calendar-preview {
+    display: block;
+}
+
+.calendar-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 280px;
+    padding: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.calendar-dropdown.active {
+    display: block;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar-title {
+    font-weight: bold;
+    color: #836540;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    color: #937c5a;
+}
+
+.calendar-day {
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+    color: #4b3821;
+}
+
+.calendar-day:hover {
+    background: #f0f0f0;
+}
+
+.calendar-day.selected {
+    background: #836540;
+    color: white;
+}
+
+.calendar-day.other-month {
+    color: #ccc;
+}
+
+.calendar-nav {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #836540;
+    font-weight: bold;
 }
