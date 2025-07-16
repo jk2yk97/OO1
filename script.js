@@ -184,29 +184,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   checkUnlocking();
-
-  // Make the modal draggable
-  const modalContent = document.querySelector('.modal-content');
-  const modalHeader = document.querySelector('.modal-header');
-  let isDragging = false;
-  let offsetX, offsetY;
-
-  modalHeader.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    offsetX = e.clientX - modalContent.offsetLeft;
-    offsetY = e.clientY - modalContent.offsetTop;
-    modalHeader.style.cursor = 'grabbing';
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-      modalContent.style.left = `${e.clientX - offsetX}px`;
-      modalContent.style.top = `${e.clientY - offsetY}px`;
-    }
-  });
-
-  document.addEventListener('mouseup', () => {
-    isDragging = false;
-    modalHeader.style.cursor = 'grab';
-  });
 });
