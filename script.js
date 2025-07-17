@@ -357,10 +357,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const inicioValue = form.querySelector('input[name="inicio"]').dataset.dateValue || '';
     const finValue = form.querySelector('input[name="fin"]').dataset.dateValue || '';
     
-    if (finValue && !inicioValue) {
-      alert('💟 Debes seleccionar una fecha de inicio si has seleccionado fecha de fin');
-      return;
-    }
     
     if (inicioValue) {
       const inicioParts = inicioValue.split('-');
