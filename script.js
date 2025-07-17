@@ -229,9 +229,6 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="calendar-title">${monthName} ${year}</div>
             <button class="calendar-nav next-month">→</button>
           </div>
-          <div class="calendar-actions">
-            <button class="clear-date-btn">Borrar fecha</button>
-          </div>
           <div class="calendar-grid">
             <div class="calendar-day-header">L</div>
             <div class="calendar-day-header">M</div>
@@ -256,15 +253,20 @@ document.addEventListener('DOMContentLoaded', function () {
           
           html += `<div class="calendar-day ${isSelected ? 'selected' : ''}">${i}</div>`;
         }
-        
+
         const lastDayOfWeek = lastDay.getDay() === 0 ? 0 : 7 - lastDay.getDay();
         for (let i = 1; i <= lastDayOfWeek; i++) {
           html += `<div class="calendar-day other-month">${i}</div>`;
         }
         
-        html += `</div>`;
+        html += `</div>
+          <div class="calendar-actions">
+            <button class="clear-date-btn">Borrar fecha</button>
+          </div>`;
+        
         return html;
       }
+        
     });
     
     document.addEventListener('click', function(e) {
