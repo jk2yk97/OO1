@@ -354,6 +354,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function saveFormData() {
+     const notaValue = parseFloat(form.nota.value);
+    if (notaValue > 100) {
+        alert('💟 La nota no puede ser mayor a 100');
+        return;
+    }
+    
     const inicioValue = form.querySelector('input[name="inicio"]').dataset.dateValue || '';
     const finValue = form.querySelector('input[name="fin"]').dataset.dateValue || '';
     
