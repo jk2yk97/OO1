@@ -317,8 +317,9 @@ li.completed > span {
 
 .calendar-actions {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     margin: 10px 0;
+    padding: 0 5px;
 }
 
 .clear-date-btn {
@@ -330,6 +331,7 @@ li.completed > span {
     cursor: pointer;
     font-size: 12px;
     font-weight: bold;
+    margin-left: auto;
 }
 
 .clear-date-btn:hover {
