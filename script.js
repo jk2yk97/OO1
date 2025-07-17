@@ -144,13 +144,23 @@ document.addEventListener('DOMContentLoaded', function () {
         calendarDropdown.innerHTML = generateCalendarHTML(currentDate);
         calendarDropdown.classList.add('active');
         
+        if (spaceBelow < 300 && rect.top > 300) {
+        calendarDropdown.style.top = 'auto';
+        calendarDropdown.style.bottom = '100%';
+        calendarDropdown.style.marginBottom = '5px';
+    } else {
+        calendarDropdown.style.top = '100%';
+        calendarDropdown.style.bottom = 'auto';
+        calendarDropdown.style.marginBottom = '0';
+    }
+        
         const days = calendarDropdown.querySelectorAll('.calendar-day:not(.other-month)');
-        days.forEach(day => {
-          day.addEventListener('click', (e) => {
+    days.forEach(day => {
+        day.addEventListener('click', (e) => {
             e.stopPropagation();
             selectDate(day);
-          });
         });
+    });
         
         const clearBtn = calendarDropdown.querySelector('.clear-date-btn');
         clearBtn.addEventListener('click', (e) => {
