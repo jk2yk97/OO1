@@ -5,14 +5,18 @@ Este proyecto es una visualización interactiva de la malla curricular de la car
 [💌](https://jk2yk97.github.io/xd/)
 
 ## 💞 Características
-- 💕 Organización por años y semestres.
-- 💕 Botón de información sobre la clase.
-- 💕 Representación visual de módulos no reparables y dependencias.
+💕 Organización por años y semestres.
+
+💕 Botón de información sobre la clase.
+
+💕 Representación visual de módulos no reparables y dependencias.
 
 ## 💞 Hecho con
-- 💕 HTML
-- 💕 CSS
-- 💕 JavaScript
+💕 HTML
+
+💕 CSS
+
+💕 JavaScript
 
 ---
 
