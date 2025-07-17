@@ -394,3 +394,78 @@ li.completed > span {
     font-weight: bold;
     padding: 0 5px;
 }
+
+@media (max-width: 1024px) {
+  .years-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .year {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  h1 {
+    font-size: 28px;
+    white-space: normal;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  
+  .year-1, .year-2 {
+    padding: 10px;
+    border-radius: 20px;
+  }
+  
+  .semester {
+    padding: 15px;
+  }
+  
+  .module h4 {
+    font-size: 14px;
+  }
+  
+  .module li {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 24px;
+    margin: 20px 0;
+  }
+  
+  .year-1 h2, .year-2 h2 {
+    font-size: 28px;
+    padding-left: 10px;
+  }
+  
+  .semestre-1a, .semestre-1b, .semestre-2a {
+    font-size: 20px;
+  }
+  
+  .info-btn img {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .modal-content {
+    width: 90%;
+    max-width: 300px;
+  }
+  
+  #moduleForm {
+    padding: 15px;
+  }
+}
+
+input, select, textarea {
+  max-width: 100% !important;
+}
