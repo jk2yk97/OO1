@@ -128,19 +128,23 @@
       <form id="moduleForm">
         <label>Docente: <input name="docente" /></label>
         <label>Grupo: <input name="grupo" /></label>
+        
         <div class="date-picker-wrapper">
           <label>Fecha de Inicio:</label>
-            <div class="date-picker">
-              <input type="text" class="date-input" name="inicio" placeholder="Selecciona una fecha" readonly>
-              <div class="calendar-dropdown"></div>
-            </div>
+          <div class="date-picker">
+            <input type="text" class="date-input" name="inicio" placeholder="Selecciona una fecha" readonly>
+            <div class="calendar-dropdown"></div>
           </div>
-          <label>Fecha de Fin:</label>
-            <div class="date-picker">
-              <input type="text" class="date-input" name="fin" placeholder="Selecciona una fecha" readonly>
-              <div class="calendar-dropdown"></div>
-            </div>
         </div>
+        
+        <div class="date-picker-wrapper">
+          <label>Fecha de Fin:</label>
+          <div class="date-picker">
+            <input type="text" class="date-input" name="fin" placeholder="Selecciona una fecha" readonly>
+            <div class="calendar-dropdown"></div>
+          </div>
+        </div>
+        
         <label>Nota: <input name="nota" type="number" min="0" max="100" step="1" /></label>
         <label>Estado:
           <select name="estado">
