@@ -1,5 +1,5 @@
 # 💟 Malla Curricular
-**Técnico Especialista en Atención al Cliente y Recepción Hotelera**
+##**Técnico Especialista en Atención al Cliente y Recepción Hotelera**
 
 Este proyecto es una *visualización interactiva* de la malla curricular de la carrera técnica **Técnico Especialista en Atención al Cliente y Recepción Hotelera**.
 
