@@ -279,6 +279,10 @@ li.completed > span {
     cursor: pointer;
 }
 
+.date-input::placeholder {
+    color: #927f6a;
+    opacity: 1;
+
 .date-input:focus {
     outline: none;
     border-color: #836540;
