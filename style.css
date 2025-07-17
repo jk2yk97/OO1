@@ -282,6 +282,7 @@ li.completed > span {
 .date-input::placeholder {
     color: #927f6a;
     opacity: 1;
+}
 
 .date-input:focus {
     outline: none;
@@ -293,7 +294,8 @@ li.completed > span {
     position: absolute;
     top: 100%;
     left: 0;
-    width: 260px;
+    width: 100%;
+    min-width: 260px;
     padding: 10px;
     background: white;
     border: 1px solid #ddd;
@@ -337,6 +339,7 @@ li.completed > span {
     font-size: 12px;
     font-weight: bold;
     margin-left: auto;
+    transition: background-color 0.2s;
 }
 
 .clear-date-btn:hover {
@@ -348,6 +351,7 @@ li.completed > span {
     grid-template-columns: repeat(7, 1fr);
     gap: 3px;
     font-size: 12px;
+    width: 100%;
 }
 
 .calendar-day-header {
@@ -360,10 +364,11 @@ li.completed > span {
 
 .calendar-day {
     text-align: center;
-    padding: 5px 3px;
+    padding: 5px 0;
     cursor: pointer;
     color: #4b3821;
     font-size: 12px;
+    border-radius: 3px;
 }
 
 .calendar-day:hover {
