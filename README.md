@@ -1,6 +1,6 @@
+![Banner del proyecto](https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/banner.png)
 # 💟 Malla Curricular
 
-![Banner del proyecto](https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/banner.png)
 
 Este proyecto es una *visualización interactiva* de la malla curricular de la carrera técnica **Técnico Especialista en Atención al Cliente y Recepción Hotelera**.
 
