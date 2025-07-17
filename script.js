@@ -92,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     li.addEventListener('click', function(e) {
-
       if (e.target.closest('.info-btn')) {
         return;
       }
@@ -137,30 +136,30 @@ document.addEventListener('DOMContentLoaded', function () {
       
       dateInput.addEventListener('click', function(e) {
         e.stopPropagation();
-        showCalendarDropdown();
-      });
-
-      function showCalendarDropdown() {
+        const rect = dateInput.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        
         calendarDropdown.innerHTML = generateCalendarHTML(currentDate);
         calendarDropdown.classList.add('active');
         
+        // Posicionamiento inteligente
         if (spaceBelow < 300 && rect.top > 300) {
-        calendarDropdown.style.top = 'auto';
-        calendarDropdown.style.bottom = '100%';
-        calendarDropdown.style.marginBottom = '5px';
-    } else {
-        calendarDropdown.style.top = '100%';
-        calendarDropdown.style.bottom = 'auto';
-        calendarDropdown.style.marginBottom = '0';
-    }
+          calendarDropdown.style.top = 'auto';
+          calendarDropdown.style.bottom = '100%';
+          calendarDropdown.style.marginBottom = '5px';
+        } else {
+          calendarDropdown.style.top = '100%';
+          calendarDropdown.style.bottom = 'auto';
+          calendarDropdown.style.marginBottom = '0';
+        }
         
         const days = calendarDropdown.querySelectorAll('.calendar-day:not(.other-month)');
-    days.forEach(day => {
-        day.addEventListener('click', (e) => {
+        days.forEach(day => {
+          day.addEventListener('click', (e) => {
             e.stopPropagation();
             selectDate(day);
+          });
         });
-    });
         
         const clearBtn = calendarDropdown.querySelector('.clear-date-btn');
         clearBtn.addEventListener('click', (e) => {
@@ -183,6 +182,24 @@ document.addEventListener('DOMContentLoaded', function () {
           currentDate.setMonth(currentDate.getMonth() + 1);
           showCalendarDropdown();
         });
+      });
+      
+      function showCalendarDropdown() {
+        const rect = dateInput.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        
+        calendarDropdown.innerHTML = generateCalendarHTML(currentDate);
+        calendarDropdown.classList.add('active');
+        
+        if (spaceBelow < 300 && rect.top > 300) {
+          calendarDropdown.style.top = 'auto';
+          calendarDropdown.style.bottom = '100%';
+          calendarDropdown.style.marginBottom = '5px';
+        } else {
+          calendarDropdown.style.top = '100%';
+          calendarDropdown.style.bottom = 'auto';
+          calendarDropdown.style.marginBottom = '0';
+        }
       }
       
       function selectDate(dayElement) {
@@ -195,7 +212,6 @@ document.addEventListener('DOMContentLoaded', function () {
         );
         
         dateInput.value = formatDate(selectedDate);
-
         dateInput.dataset.dateValue = formatDateForStorage(selectedDate);
         calendarDropdown.classList.remove('active');
       }
@@ -276,7 +292,6 @@ document.addEventListener('DOMContentLoaded', function () {
         
         return html;
       }
-        
     });
     
     document.addEventListener('click', function(e) {
