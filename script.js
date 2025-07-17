@@ -136,13 +136,16 @@ document.addEventListener('DOMContentLoaded', function () {
       
       dateInput.addEventListener('click', function(e) {
         e.stopPropagation();
+        showCalendarDropdown();
+      });
+
+      function showCalendarDropdown() {
         const rect = dateInput.getBoundingClientRect();
         const spaceBelow = window.innerHeight - rect.bottom;
         
         calendarDropdown.innerHTML = generateCalendarHTML(currentDate);
         calendarDropdown.classList.add('active');
         
-        // Posicionamiento inteligente
         if (spaceBelow < 300 && rect.top > 300) {
           calendarDropdown.style.top = 'auto';
           calendarDropdown.style.bottom = '100%';
@@ -162,10 +165,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         
         const clearBtn = calendarDropdown.querySelector('.clear-date-btn');
-        clearBtn.addEventListener('click', (e) => {
+        clearBtn.addEventListener('click', function(e) {
+          e.preventDefault();
           e.stopPropagation();
           clearDate();
-          calendarDropdown.classList.remove('active');
         });
         
         const prevMonth = calendarDropdown.querySelector('.prev-month');
@@ -182,24 +185,6 @@ document.addEventListener('DOMContentLoaded', function () {
           currentDate.setMonth(currentDate.getMonth() + 1);
           showCalendarDropdown();
         });
-      });
-      
-      function showCalendarDropdown() {
-        const rect = dateInput.getBoundingClientRect();
-        const spaceBelow = window.innerHeight - rect.bottom;
-        
-        calendarDropdown.innerHTML = generateCalendarHTML(currentDate);
-        calendarDropdown.classList.add('active');
-        
-        if (spaceBelow < 300 && rect.top > 300) {
-          calendarDropdown.style.top = 'auto';
-          calendarDropdown.style.bottom = '100%';
-          calendarDropdown.style.marginBottom = '5px';
-        } else {
-          calendarDropdown.style.top = '100%';
-          calendarDropdown.style.bottom = 'auto';
-          calendarDropdown.style.marginBottom = '0';
-        }
       }
       
       function selectDate(dayElement) {
@@ -218,8 +203,9 @@ document.addEventListener('DOMContentLoaded', function () {
       
       function clearDate() {
         dateInput.value = '';
-        dateInput.dataset.dateValue = '';
+        dateInput.removeAttribute('data-date-value');
         selectedDate = null;
+        calendarDropdown.classList.remove('active');
       }
       
       function formatDate(date) {
@@ -287,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         html += `</div>
           <div class="calendar-actions">
-            <button class="clear-date-btn">Borrar fecha</button>
+            <button type="button" class="clear-date-btn">Borrar fecha</button>
           </div>`;
         
         return html;
@@ -354,15 +340,26 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function saveFormData() {
-     const notaValue = parseFloat(form.nota.value);
-    if (notaValue > 100) {
+
+    const notaValue = parseFloat(form.nota.value);
+    if (!isNaN(notaValue)) {
+      if (notaValue > 100) {
         alert('💟 La nota no puede ser mayor a 100');
         return;
+      }
+      if (notaValue < 0) {
+        alert('💟 La nota no puede ser menor a 0');
+        return;
+      }
     }
-    
+
     const inicioValue = form.querySelector('input[name="inicio"]').dataset.dateValue || '';
     const finValue = form.querySelector('input[name="fin"]').dataset.dateValue || '';
     
+    if (finValue && !inicioValue) {
+      alert('💟 Debes seleccionar una fecha de inicio si has seleccionado fecha de fin');
+      return;
+    }
     
     if (inicioValue) {
       const inicioParts = inicioValue.split('-');
@@ -412,6 +409,18 @@ document.addEventListener('DOMContentLoaded', function () {
   saveBtn.addEventListener('click', function() {
     saveFormData();
     modal.style.display = 'none';
+  });
+
+  document.querySelector('input[name="nota"]')?.addEventListener('input', function(e) {
+    const value = parseFloat(this.value);
+    if (!isNaN(value)) {
+      if (value > 100) {
+        this.value = 100;
+      }
+      if (value < 0) {
+        this.value = 0;
+      }
+    }
   });
 
   window.addEventListener('click', function(e) {
