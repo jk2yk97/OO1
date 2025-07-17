@@ -93,7 +93,7 @@ h1 {
 .semester.inactive-1 li,
 .semester.active-2 li,
 .semester.inactive-2 li {
-color: #927f6a;
+    color: #927f6a;
 }
 
 li.completed > span {
@@ -302,6 +302,7 @@ li.completed > span {
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     z-index: 1000;
+    margin-top: 5px;
 }
 
 .calendar-dropdown.active {
