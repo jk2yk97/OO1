@@ -344,11 +344,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const notaValue = parseFloat(form.nota.value);
     if (!isNaN(notaValue)) {
       if (notaValue > 100) {
-        alert('💟 La nota no puede ser mayor a 100');
+        alert('📦 La nota no puede ser mayor a 100');
         return;
       }
       if (notaValue < 0) {
-        alert('💟 La nota no puede ser menor a 0');
+        alert('📦 La nota no puede ser menor a 0');
         return;
       }
     }
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const finValue = form.querySelector('input[name="fin"]').dataset.dateValue || '';
     
     if (finValue && !inicioValue) {
-      alert('💟 Debes seleccionar una fecha de inicio si has seleccionado fecha de fin');
+      alert('📦 Debes seleccionar una fecha de inicio si has seleccionado fecha de fin');
       return;
     }
     
@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const inicioParts = inicioValue.split('-');
       const inicioDate = new Date(inicioParts[0], inicioParts[1] - 1, inicioParts[2]);
       if (isNaN(inicioDate.getTime())) {
-        alert('💟 La fecha de inicio no es válida');
+        alert('📦 La fecha de inicio no es válida');
         return;
       }
     }
@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const finParts = finValue.split('-');
       const finDate = new Date(finParts[0], finParts[1] - 1, finParts[2]);
       if (isNaN(finDate.getTime())) {
-        alert('💟 La fecha de fin no es válida');
+        alert('📦 La fecha de fin no es válida');
         return;
       }
     }
@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     
     localStorage.setItem(`modinfo-${currentModuleId}`, JSON.stringify(data));
-    alert('💟 Guardado correctamente');
+    alert('📦 Guardado correctamente');
   }
 
   document.querySelectorAll('.info-btn').forEach(btn => {
