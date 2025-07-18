@@ -1,113 +1,98 @@
-body {
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
     color: #ffffff;
     background-color: #ffffff;
-    margin: 0;
-    padding: 20px;
     font-weight: bolder;
 }
 
 .container {
+    width: 100%;
     max-width: 1000px;
     margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
 }
 
 h1 {
     color: #4b3821;
     text-align: center;
-    margin-bottom: 35px;
-    margin-top: 35px;
-    font-size: 35px;
-    font-weight: bolder;
-    white-space: normal;
+    margin: 25px auto;
+    font-size: clamp(28px, 4vw, 35px);
     width: 100%;
     padding: 0 20px;
     box-sizing: border-box;
+    line-height: 1.3;
 }
 
-.year-1, .year-2 {
-    margin-bottom: 40px;
+.years-wrapper {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+
+.year {
+    flex: 1;
+    min-width: 300px;
+    box-sizing: border-box;
+}
+
+.year-1, .year-2, .year-3 {
+    margin-bottom: 30px;
     background-color: #f7f0e8;
-    padding: 15px;
+    padding: 20px;
     border-radius: 30px;
     border: 4px solid #f7f0e8;
+    transition: all 0.3s ease;
 }
 
-.year-1 h2, .year-2 h2 {
+.year-1 h2, .year-2 h2, .year-3 h2 {
     color: #836540;
-    font-size: 35px;
-    font-weight: bolder;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    padding-left: 18px;
+    font-size: clamp(24px, 3vw, 35px);
+    margin: 15px 0;
+    padding-left: 15px;
 }
 
 .semester {
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     padding: 20px;
-    border-radius: 40px;
+    border-radius: 25px;
     background-color: #ffffff;
 }
 
-.semestre-1a,
-.semestre-1b,
-.semestre-2a {
-    margin-bottom: 8px;
-    margin-top: 6px;
-    padding-left: 2px;
-    border-radius: 0px;
-    pointer-events: auto;
-    color: #937c5a;
-    font-size: 25px;
-    font-weight: bolder;
-}
-
 .module {
-    margin-bottom: 5px;
-    padding: 1px;
+    margin-bottom: 15px;
 }
 
 .module h4 {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding: 2px 4px 2px 10px;
+    margin: 10px 0;
+    padding: 8px 12px;
     border-radius: 12px;
-    font-size: 15px;
-    font-weight: bolder;
+    font-size: 16px;
     background-color: #836540;
     color: #ffffff;
 }
 
 .module li {
-    margin-bottom: 2px;
-    margin-top: 2px;
+    margin: 8px 0;
     color: #927f6a;
-    cursor: pointer;
     font-size: 15px;
-    font-weight: bolder;
-    position: relative;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    padding: 6px 10px;
+    transition: all 0.2s ease;
 }
 
-.semester.active-1 li,
-.semester.inactive-1 li,
-.semester.active-2 li,
-.semester.inactive-2 li {
-    color: #927f6a;
-}
-
-li.completed > span {
-    text-decoration-line: line-through;
-    text-decoration-style: wavy;
-    text-decoration-color: #4b3821;
-    text-decoration-thickness: 2px;
-    text-underline-position: under;
-}
-
-.year.inactive {
+.year.inactive, 
+.semester.inactive-1, 
+.semester.inactive-2 {
     opacity: 0.5;
     pointer-events: none;
 }
@@ -117,312 +102,30 @@ li.completed > span {
     pointer-events: auto;
 }
 
-.years-wrapper {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.year {
-    flex: 1;
-    min-width: 300px;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    overflow : hidden;
-}
-
 .modal-content {
-    background-color: #fff;
-    padding: 0;
-    width: 320px;
+    width: 95%;
+    max-width: 350px;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-height: 80vh;
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
-}
-
-.modal-header {
-    padding: 10px 20px;
-    background-color: #836540;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    overflow: hidden;
-}
-
-.modal-header h2 {
-    margin: 0;
-    font-size: 18px;
 }
 
 #moduleForm {
-    padding: 25px;
-    overflow-y: auto;
-    flex-grow: 1;
-    max-height: calc(80vh - 120px);
+    padding: 20px;
 }
 
-.close-btn {
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
-    font-weight: bolder;
-}
-
-.modal-content label {
-    color: #927f6a;
-    font-weight: bolder;
-    display: block;
-    margin: 15px 0 5px;
-}
-
-.modal-content input:not(.date-input),
-.modal-content select {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #d4c8b5;
-    border-radius: 8px;
-    color: #937c5a;
-    font-weight: bolder;
-    background-color: #f9f7f3;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-    max-width: 100%;
-}
-
-.modal-content input:focus,
-.modal-content select:focus {
-    outline: none;
-    border-color: #836540;
-}
-
-#saveBtn {
-    background-color: #836540;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bolder;
-    width: 100%;
-    margin-top: 10px;
-}
-
-#saveBtn:hover {
-    background-color: #6a5233;
-}
-
-.info-btn {
-    background-color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    padding: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-}
-
-.info-btn img {
-    width: 35px;
-    height: 35px;
-    display: block;
-}
-
-.info-btn:hover {
-    transform: scale(1.1);
-    transition: transform 0.2s ease;
-}
-
-.semester.inactive-1,
-.semester.inactive-2 {
-    opacity: 0.5;
-    pointer-events: none;
-}
-
-.date-picker-wrapper {
-    margin-bottom: 15px;
-}
-
-.date-picker {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-.date-input {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #d4c8b5;
-    border-radius: 8px;
-    color: #937c5a;
-    font-weight: bolder;
-    background-color: #f9f7f3;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-
-.date-input::placeholder {
-    color: #927f6a;
-    opacity: 1;
-}
-
-.date-input:focus {
-    outline: none;
-    border-color: #836540;
-}
-
-.calendar-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    min-width: 260px;
-    padding: 10px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    z-index: 1000;
-    margin-top: 5px;
-}
-
-.calendar-dropdown.active {
-    display: block;
-}
-
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    padding: 0 5px;
-}
-
-.calendar-title {
-    font-weight: bolder;
-    color: #836540;
-    font-size: 14px;
-}
-
-.calendar-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin: 10px 0;
-    padding: 0 5px;
-}
-
-.clear-date-btn {
-    background-color: #f7f0e8;
-    color: #836540;
-    border: 1px solid #d4c8b5;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: bolder;
-    margin-left: auto;
-    transition: background-color 0.2s;
-}
-
-.clear-date-btn:hover {
-    background-color: #e8d9c5;
-}
-
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
-    font-size: 12px;
-    width: 100%;
-}
-
-.calendar-day-header {
-    text-align: center;
-    font-weight: bolder;
-    padding: 3px;
-    color: #937c5a;
-    font-size: 11px;
-}
-
-.calendar-day {
-    text-align: center;
-    padding: 5px 0;
-    cursor: pointer;
-    color: #4b3821;
-    font-size: 12px;
-    border-radius: 3px;
-}
-
-.calendar-day:hover {
-    background: #f0f0f0;
-}
-
-.calendar-day.selected {
-    background: #836540;
-    color: white;
-}
-
-.calendar-day.other-month {
-    color: #ccc;
-}
-
-.calendar-nav {
-    background: none;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    color: #836540;
-    font-weight: bolder;
-    padding: 0 5px;
+#saveBtn, .info-btn, .calendar-day {
+    transition: all 0.2s ease;
 }
 
 @media (max-width: 1024px) {
     .years-wrapper {
         flex-direction: column;
         align-items: stretch;
-        padding: 0 10px;
-        gap: 20px;
+        gap: 25px;
     }
     
     .year {
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        box-sizing: border-box;
-    }
-    
-    h1 {
-        font-size: 28px;
-        white-space: normal;
-        padding: 0 15px;
-        text-align: center;
-        margin: 25px auto;
-        line-height: 1.3;
+        min-width: 100%;
     }
 }
 
@@ -432,76 +135,42 @@ li.completed > span {
     }
     
     .year-1, .year-2, .year-3 {
-        padding: 12px;
-        border-radius: 20px;
-        margin-bottom: 15px;
-    }
-    
-    .semester {
-        padding: 12px;
-        margin: 0 -5px;
-        border-radius: 30px;
-    }
-    
-    .module h4 {
-        font-size: 16px;
-        padding-left: 8px;
-        margin: 10px 0;
+        padding: 15px;
+        margin-bottom: 20px;
     }
     
     .module li {
         font-size: 14px;
         white-space: normal;
-        padding: 4px 8px;
     }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 0 10px;
-    }
-    
     h1 {
-        font-size: 22px;
-        margin: 15px 0;
-        line-height: 1.4;
-        letter-spacing: 0.5px;
+        font-size: 24px;
+        margin: 15px auto;
     }
     
     .year-1 h2, .year-2 h2, .year-3 h2 {
-        font-size: 22px;
-        padding-left: 8px;
-        margin: 12px 0;
+        font-size: 20px;
     }
     
-    .semestre-1a, .semestre-1b, .semestre-2a {
-        font-size: 18px;
-        margin: 8px 0;
-    }
-    
-    .info-btn {
-        width: 25px;
-        height: 25px;
-    }
-    
-    .info-btn img {
-        width: 100%;
-        height: 100%;
+    .semester {
+        padding: 15px;
     }
     
     .modal-content {
-        width: 95%;
-        max-width: 300px;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 20px;
+        width: 90%;
+    }
+}
+
+@media (max-width: 375px) {
+    .module h4 {
+        font-size: 14px;
+        padding: 6px 10px;
     }
     
-    #moduleForm {
-        padding: 12px;
-    }
-    
-    .modal-header h2 {
-        font-size: 16px;
+    .module li {
+        font-size: 13px;
     }
 }
