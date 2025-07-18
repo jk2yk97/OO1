@@ -403,49 +403,44 @@ li.completed > span {
 
 @media (max-width: 768px) {
     body {
-        padding: 10px !important;
+        padding: 10px;
         overflow-x: hidden;
     }
     
     .container {
-        padding: 0 10px;
         width: 100%;
+        padding: 0 10px;
         box-sizing: border-box;
     }
     
     .years-wrapper {
+        display: flex;
         flex-direction: column;
-        align-items: center;
         gap: 20px;
         width: 100%;
-        margin: 0;
-        padding: 0;
     }
     
     .year {
         width: 100%;
-        max-width: 100% !important;
-        margin: 0;
-        padding: 15px;
-        box-sizing: border-box;
-    }
-    
-    .year-1, .year-2, 
-    .semester, 
-    .module li, 
-    .info-btn,
-    .modal-content {
-        all: unset; 
+        min-width: 100%;
     }
 }
 
-@media (max-width: 480px) {
-    .info-btn img {
-        width: 30px !important;
-        height: 30px !important;
+@media (min-width: 769px) {
+    body {
+        letter-spacing: normal !important;
+        word-spacing: normal !important;
+        font-feature-settings: normal !important;
     }
     
-    .module li {
-        font-size: 14px !important;
+    .years-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 30px !important;
+    }
+    
+    .year {
+        flex: 1 !important;
+        min-width: 300px !important;
     }
 }
