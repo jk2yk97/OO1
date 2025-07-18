@@ -1,9 +1,9 @@
 ![Banner del proyecto](https://raw.githubusercontent.com/jk2yk97/xd/refs/heads/main/banner.png)
-# ‪‪❤︎‬ Malla Curricular
+# ⋆˚࿔ ꒰ Malla Curricular ;;
 
 Este proyecto es una *visualización interactiva* de la malla curricular de la carrera técnica **Técnico Especialista en Atención al Cliente y Recepción Hotelera**.
 
-### [☕](https://jk2yk97.github.io/xd/)
+### [📦](https://jk2yk97.github.io/xd/)
 
 ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚
 
