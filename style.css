@@ -6,12 +6,12 @@ body {
     margin: 0;
     padding: 20px;
     font-weight: bolder;
-    text-align: center;
 }
 
 .container {
     max-width: 1000px;
     margin: 0 auto;
+    text-align: center;
 }
 
 h1 {
