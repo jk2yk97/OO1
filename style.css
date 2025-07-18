@@ -435,7 +435,6 @@ li.completed > span {
         padding: 12px;
         border-radius: 20px;
         margin-bottom: 15px;
-        border: 3px solid #dbe4e8;
     }
     
     .semester {
@@ -470,7 +469,7 @@ li.completed > span {
     }
     
     .year-1 h2, .year-2 h2, .year-3 h2 {
-        font-size: 22px; /* Reducción proporcional */
+        font-size: 22px;
         padding-left: 8px;
         margin: 12px 0;
     }
