@@ -3,7 +3,7 @@
 
 Este proyecto es una *visualización interactiva* de la malla curricular de la carrera técnica **Técnico Especialista en Atención al Cliente y Recepción Hotelera**.
 
-### [📦](https://jk2yk97.github.io/xd/)
+### [📦](https://jk2yk97.github.io/OO1/)
 
 ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚ ——— ˚ ༘ ೀ⋆｡˚
 
